@@ -51,7 +51,7 @@ session=Session(engine)
 
 
 ```python
-lastyear=session.query(Measurement.date, Measurement.prcp).filter(Measurement.date>'2017-04-25').all()
+lastyear=session.query(Measurement.date, Measurement.prcp).filter(Measurement.date>'2016-08-10').all()
 ```
 
 
@@ -65,7 +65,7 @@ a=pd.DataFrame({'Date':dates,"Precipitation":prcp}).set_index('Date')
 ```python
 #Plot Results
 import matplotlib.pyplot as plt
-a.plot()
+a.groupby('Date').mean().plot()
 plt.show()
 ```
 
@@ -106,15 +106,15 @@ a.describe()
   <tbody>
     <tr>
       <th>count</th>
-      <td>625.000000</td>
+      <td>2092.000000</td>
     </tr>
     <tr>
       <th>mean</th>
-      <td>0.150720</td>
+      <td>0.178905</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>0.406165</td>
+      <td>0.460854</td>
     </tr>
     <tr>
       <th>min</th>
@@ -134,7 +134,7 @@ a.describe()
     </tr>
     <tr>
       <th>max</th>
-      <td>6.250000</td>
+      <td>6.700000</td>
     </tr>
   </tbody>
 </table>
@@ -181,7 +181,7 @@ conn.execute("select station,count(station) from measurements group by station o
 
 ```python
 #Last 12 months of temperature observation data from most active station
-data=conn.execute("select tobs from measurements where station = 'USC00519281' and date>'2017-04-25'").fetchall()
+data=conn.execute("select tobs from measurements where station = 'USC00519281' and date>'2016-08-10'").fetchall()
 data=[i[0] for i in data]
 num_bins=12
 n, bins, patches = plt.hist(data, num_bins, facecolor='blue', alpha=.5)
@@ -227,20 +227,20 @@ plt.show()
 
 
 ```python
-conn.execute("select station,sum(prcp) from measurements where date>'2017-04-25' group by station").fetchall()
+conn.execute("select station,sum(prcp) from measurements where date>'2016-08-10' group by station").fetchall()
 
 ```
 
 
 
 
-    [('USC00513117', 13.449999999999992),
-     ('USC00514830', 10.27999999999999),
-     ('USC00516128', 38.7),
-     ('USC00517948', 0.13),
-     ('USC00519281', 16.86),
-     ('USC00519397', 2.869999999999999),
-     ('USC00519523', 11.910000000000005)]
+    [('USC00513117', 50.47000000000003),
+     ('USC00514830', 33.46),
+     ('USC00516128', 156.53000000000003),
+     ('USC00517948', 4.59),
+     ('USC00519281', 73.74000000000001),
+     ('USC00519397', 16.64999999999999),
+     ('USC00519523', 38.830000000000005)]
 
 
 
